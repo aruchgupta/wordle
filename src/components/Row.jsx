@@ -3,7 +3,7 @@ import Tile from "./Tile";
 import { WORD_LENGTH } from "../data";
 const regex = new RegExp("^[a-z]$");
 
-const Row = ({ solution }) => {
+const Row = ({ solution, dictionary }) => {
   const [guess, setGuess] = useState("");
   const [attempts, setAttempts] = useState(new Array(6).fill(""));
   const [isFinal, setIsFinal] = useState(false);
@@ -25,6 +25,11 @@ const Row = ({ solution }) => {
 
         if (value === "Enter") {
           if (guess.length !== WORD_LENGTH) {
+            return;
+          }
+
+          if (dictionary.indexOf(guess) === -1) {
+            alert("Not a valid word");
             return;
           }
 
@@ -92,7 +97,6 @@ const Row = ({ solution }) => {
           </div>
         );
       })}
-      
     </>
   );
 };
