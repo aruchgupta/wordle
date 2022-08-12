@@ -15,7 +15,7 @@ export default function App() {
     <div className="App">
       <h1>Wordle</h1>
       <div className="mainContainer">
-        <Row solution={solution.toLowerCase()} />
+        <Row solution={solution.toLowerCase()} dictionary={dictionary} />
       </div>
     </div>
   );

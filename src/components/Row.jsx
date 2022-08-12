@@ -3,11 +3,12 @@ import Tile from "./Tile";
 import { WORD_LENGTH } from "../data";
 const regex = new RegExp("^[a-z]$");
 
-const Row = ({ solution }) => {
+const Row = ({ solution, dictionary }) => {
   const [guess, setGuess] = useState("");
   const [attempts, setAttempts] = useState(new Array(6).fill(""));
   const [isFinal, setIsFinal] = useState(false);
   const [isGameOver, setIsGameOver] = useState(false);
+  const [totalAttempts, setTotalAttempts] = useState(1);
 
   const handleKeyDown = useCallback(
     (e) => {
@@ -17,7 +18,6 @@ const Row = ({ solution }) => {
         if (value === "Backspace") {
           setGuess((prev) => {
             const val = prev?.slice(0, -1);
-            console.log(val, prev);
             return val || "";
           });
           return;
@@ -28,15 +28,28 @@ const Row = ({ solution }) => {
             return;
           }
 
+          if (dictionary.indexOf(guess.toUpperCase()) === -1) {
+            alert("Not a valid word");
+            return;
+          }
+
+          let a = totalAttempts;
+          a++;
+          setTotalAttempts(a);
+
           const newAttempts = [...attempts];
           newAttempts[attempts.findIndex((val) => val === "")] = guess;
 
           setAttempts(newAttempts);
           setGuess("");
           setIsFinal(true);
-          console.log(guess, solution);
-          if (guess === solution) {
+
+          if (guess === solution || totalAttempts === 6) {
             setIsGameOver(true);
+            console.log(totalAttempts);
+            totalAttempts === 6
+              ? alert(solution?.toUpperCase())
+              : alert("Yay!");
           }
           return;
         }
@@ -55,7 +68,7 @@ const Row = ({ solution }) => {
         });
       }
     },
-    [guess, attempts, solution, isGameOver]
+    [guess, attempts, solution, isGameOver, totalAttempts]
   );
 
   useEffect(() => {
