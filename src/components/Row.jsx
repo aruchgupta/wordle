@@ -84,7 +84,6 @@ const Row = ({ solution }) => {
           </div>
         );
       })}
-      {solution}
     </>
   );
 };
