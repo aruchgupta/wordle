@@ -28,7 +28,7 @@ const Row = ({ solution, dictionary }) => {
             return;
           }
 
-          if (dictionary.indexOf(guess) === -1) {
+          if (dictionary.indexOf(guess.toUpperCase()) === -1) {
             alert("Not a valid word");
             return;
           }
